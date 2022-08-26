@@ -21,14 +21,20 @@ class Endereco:
     def __init__(self, cep, numero ,rua='', estado='', cidade='', complemento=''):
 
         if (rua == '') or (estado == '') or (cidade == ''):
-            end_json = self.consultar_cep(cep)
+            if self.consultar_cep(cep):
+                end_json = self.consultar_cep(cep)
 
-            self.rua = end_json['logradouro']
-            self.estado = end_json['uf']
-            self.cidade = end_json['localidade']
-            self.numero = numero
-            self.complemento = complemento
-            self.cep = str(cep)
+                self.rua = end_json['logradouro']
+                self.estado = end_json['uf']
+                self.cidade = end_json['localidade']
+                self.numero = numero
+                self.complemento = complemento
+                self.cep = str(cep)
+                while len(self.cep) < 8:
+                    self.cep = '0' + self.cep
+            
+            else:
+                return None
 
         else:
 
@@ -58,13 +64,9 @@ class Endereco:
         Metodo realiza a consulta do cep em uma api publica para obter informações
         como estado, cidade e rua
         '''
-        # continuam existindo variaveis locais, nem tudo é propriedade de objeto
-        if not isinstance(cep, str):
-            cep = str(cep)
-            if len(cep) <= 8:
-                while len(cep) != 8:
-                    cep = '0' + cep
-        
+        cep = str(cep)
+        while len(cep) < 8:
+            cep = '0' + cep
 
         # end point da API de consulta ao cep
         url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
@@ -77,7 +79,7 @@ class Endereco:
         # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/ 
         response = requests.request("GET", url_api, headers=headers, data=payload)
 
-        if response == {}:
+        if response.json() == {"erro": "true"}:
             return False
         else:
             json_resp = response.json()
