@@ -23,8 +23,13 @@ class Pedido:
         self.__endereco = endereco
         self.__carrinho = carrinho
         
+    @property
     def endereco_entrega(self):
         return self.__endereco
+
+    @endereco_entrega.setter
+    def endereco_entrega(self, novo_endereco:Endereco):
+        self.__endereco = novo_endereco
 
     def endereco_faturamento(self):
         return self.__endereco

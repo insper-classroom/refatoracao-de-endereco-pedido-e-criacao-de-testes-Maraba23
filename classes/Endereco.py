@@ -6,6 +6,7 @@
 # version ='1.0'
 # ---------------------------------------------------------------------------
 
+from http.client import responses
 import requests
 import json
 
@@ -51,12 +52,19 @@ class Endereco:
             'cep': self.cep
         }
 
-    def consultar_cep(self, cep):
+    @classmethod
+    def consultar_cep(cls, cep):
         '''
         Metodo realiza a consulta do cep em uma api publica para obter informações
         como estado, cidade e rua
         '''
         # continuam existindo variaveis locais, nem tudo é propriedade de objeto
+        if not isinstance(cep, str):
+            cep = str(cep)
+            if len(cep) <= 8:
+                while len(cep) != 8:
+                    cep = '0' + cep
+        
 
         # end point da API de consulta ao cep
         url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
@@ -66,12 +74,14 @@ class Endereco:
         payload = {}
         headers = {}
 
-        # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
+        # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/ 
         response = requests.request("GET", url_api, headers=headers, data=payload)
 
-        # converte a resposta json em dict
-        json_resp = response.json()
-        return json_resp
+        if response == {}:
+            return False
+        else:
+            json_resp = response.json()
+            return json_resp
 
     def __str__(self):
         '''
