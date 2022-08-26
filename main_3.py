@@ -7,6 +7,10 @@
 # ---------------------------------------------------------------------------
 from classes.PessoaFisica import PessoaFisica
 from classes.Endereco import Endereco
+from classes.Produto import Produto
+from classes.Carrinho import Carrinho
+from classes.Pedido import Pedido
+from classes.Pagamentos import Pagamento
 
 import copy
 
@@ -27,11 +31,21 @@ print(end2)
 pessoa1.adicionar_endereco('casa', end1)
 
 print("Endereços da pessoa")
-print(pessoa1.listar_enderecos())
+dicionario_endereco_pessoa1 = pessoa1.listar_enderecos()
+for chave in dicionario_endereco_pessoa1.keys():
+    print(f'{chave}: ', end='')
+    for endereco in dicionario_endereco_pessoa1[chave].values():
+        print(f'{endereco} ', end='')
+    print()
 
 pessoa1.adicionar_endereco('trabalho', end2)
 print("Endereços da pessoa após inclusão")
-print(pessoa1.listar_enderecos())
+dicionario_endereco_pessoa1 = pessoa1.listar_enderecos()
+for chave in dicionario_endereco_pessoa1.keys():
+    print(f'{chave}: ', end='')
+    for endereco in dicionario_endereco_pessoa1[chave].values():
+        print(f'{endereco} ', end='')
+    print()
 
 # Criando um produto
 sabonete = Produto("0010342967", "Sabonete")
@@ -40,30 +54,24 @@ sabonete = Produto("0010342967", "Sabonete")
 # Fim do setup
 ###########################################
 
-pessoas = PessoaFisica.busca_nome('Carlos')
-if len(pessoas) > 0:
-    pessoa = pessoas[0]  #Pega a primeira pessoa
 
+pessoa = PessoaFisica.busca_nome('Carlos')
 
 produtos = Produto.busca_nome("sabon")
 
-if len(produtos) > 0: 
-    produto = produtos[0]
-
-
 carrinho = Carrinho()
-carrinho.adicionar_item(sabonete)
+carrinho.adicionar_item(sabonete, 2)
 
-pedido = Pedido()
+pedido = Pedido(pessoa1, end1, carrinho)
 
 ends = pessoa.listar_enderecos()
 
-if len(ends > 0):
-    endereco = ends[0]
+if len(ends) > 0:
+    endereco = ends['casa']
 
 # Lembre-se de adicionar estes atributos ao endereço
-pedido.endereco_entrega = copy.deepcopy(endereco) 
-pedido.endereco_faturamento = copy.deepcopy(endreco)
+pedido.endereco_entrega = copy.deepcopy(endereco)
+pedido.endereco_faturamento = copy.deepcopy(endereco)
 
 
 pag = Pagamento(pedido)
@@ -72,6 +80,11 @@ if pag.pagamento_aprovado:
     pedido.status = Pedido.PAGO 
 
 print("Pedido aguardando coleta")
+
+if pedido.status == Pedido.PAGO:
+    print("Pedido pago")
+else:
+    print("Pedido não pago")
 
 ## Pedido deve imprir todos os detalhes da compra - pessoa, endereço e produtos
 print(pedido)

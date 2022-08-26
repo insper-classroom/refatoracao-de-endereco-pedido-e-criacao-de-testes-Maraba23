@@ -38,6 +38,18 @@ class Endereco:
             self.complemento = complemento
             self.cep = str(cep)
 
+    def to_dict(self):
+        '''
+        Metodo retorna um dicionario com as informações do endereço
+        '''
+        return {
+            'rua': self.rua,
+            'estado': self.estado,
+            'cidade': self.cidade,
+            'numero': self.numero,
+            'complemento': self.complemento,
+            'cep': self.cep
+        }
 
     def consultar_cep(self, cep):
         '''
@@ -61,6 +73,8 @@ class Endereco:
         json_resp = response.json()
         return json_resp
 
-
-
-
+    def __str__(self):
+        '''
+        Metodo retorna uma string com as informações do endereço
+        '''
+        return f'{self.rua}, {self.numero} - {self.cidade} - {self.estado}'
