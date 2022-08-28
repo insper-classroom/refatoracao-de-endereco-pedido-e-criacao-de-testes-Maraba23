@@ -19,24 +19,24 @@ class Pedido:
     PAGO = 2
 
     def __init__(self, pessoa:PessoaFisica, endereco:Endereco, carrinho:Carrinho):
-        self.__pessoa = pessoa
-        self.__endereco = endereco
-        self.__carrinho = carrinho
+        self.pessoa = pessoa
+        self.endereco = endereco
+        self.carrinho = carrinho
         
     @property
     def endereco_entrega(self):
-        return self.__endereco
+        return self.endereco
 
     @endereco_entrega.setter
     def endereco_entrega(self, novo_endereco:Endereco):
-        self.__endereco = novo_endereco
+        self.endereco = novo_endereco
 
     def endereco_faturamento(self):
-        return self.__endereco
+        return self.endereco
 
     def carrinho(self):
-        return self.__carrinho
+        return self.carrinho
 
     def __str__(self):
         # imprime detalhes da compra - pessoa, endereço e produtos
-        return f'{self.__pessoa}, {self.__endereco}, {self.__carrinho}'
+        return f'{self.pessoa}, {self.endereco}, {self.carrinho}'

@@ -16,17 +16,17 @@ class Produto:
     lista_produtos = []
 
     def __init__(self, id, nome, descricao='', preco='0.00'):
-        self.__id = id
+        self.id = id
         self.nome = nome
         self.descricao = descricao
         self.preco = preco
         Produto.lista_produtos.append(self)
 
     def set_id(self, id_novo):
-        self.__id = id_novo
+        self.id = id_novo
 
     def get_id(self):
-        return self.__id
+        return self.id
 
     def get_nome(self):
         return self.nome
@@ -61,6 +61,6 @@ class Produto:
         return None
 
     def __str__(self):
-        return f'Produto -> id: {self.__id}, nome: {self.nome}, descrição: {self.descricao}, preço: {self.preco}'
+        return f'Produto -> id: {self.id}, nome: {self.nome}, descrição: {self.descricao}, preço: {self.preco}'
 
 

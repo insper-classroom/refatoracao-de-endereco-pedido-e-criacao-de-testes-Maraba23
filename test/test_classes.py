@@ -26,8 +26,20 @@ def test_carinho():
     sabonete = Produto('0010342967', 'Sabonete')
     carrinho = Carrinho()
     carrinho.adicionar_item(sabonete, 2)
-    assert carrinho.produtos[0].id == '0010342967'
-    assert carrinho.produtos[0].qtd == 2
+    assert carrinho.itens[sabonete.id] == 2
+
+@pytest.mark.exercicio_3
+def test_pedido():
+    pf = PessoaFisica('Tiago', 'tiago@email.com', '524.222.452-6')
+    end = Endereco('04546042', 300)
+    sabonete = Produto('0010342967', 'Sabonete')
+    carrinho = Carrinho()
+    carrinho.adicionar_item(sabonete, 2)
+    pedido = Pedido(pf, end, carrinho)
+    assert pedido.pessoa.nome == 'Tiago'
+    assert pedido.endereco.cep == '04546042'
+    assert pedido.endereco.numero == 300
+    assert pedido.carrinho.itens[sabonete.id] == 2
 
 @pytest.mark.exercicio_2
 def test_endereco():
