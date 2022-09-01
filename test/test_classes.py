@@ -59,5 +59,6 @@ def test_endereco_consulta_cep_nao_existe():
 
 @pytest.mark.sem_conexao
 def test_endereco_consulta_cep_problema_de_conexao():
-    assert pytest.raises(requests.exceptions.ConnectionError, Endereco('08320330', 430))
+    with pytest.raises(requests.exceptions.ConnectionError):
+        Endereco.consultar_cep('08320330')
 
