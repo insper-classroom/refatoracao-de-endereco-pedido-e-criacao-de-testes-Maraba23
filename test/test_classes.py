@@ -54,14 +54,10 @@ def test_endereco_consulta_cep_int():
     assert end.numero == 430
 
 @pytest.mark.exercicio_2
-def test_endereco_nao_encontra_cep():
-    assert Endereco.consultar_cep('00000000') == False
-
-@pytest.mark.exercicio_2
 def test_endereco_consulta_cep_nao_existe():
     assert Endereco.consultar_cep('830') == False
 
-@pytest.mark.sem_conecxao
+@pytest.mark.sem_conexao
 def test_endereco_consulta_cep_problema_de_conexao():
     assert pytest.raises(requests.exceptions.ConnectionError, Endereco('08320330', 430))
 
